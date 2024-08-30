@@ -12,8 +12,8 @@ router.get('/login', (req, res) => {
 
 router.post('/login', 
     passport.authenticate("local", {
-        successRedirect: '/products',
-        failureRedirect: '/login'}));
+        successRedirect: '/api/products',
+        failureRedirect: '/api/login'}));
 
 router.post('/register', 
     [body('email').isEmail().normalizeEmail(), 

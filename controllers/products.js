@@ -7,8 +7,7 @@ exports.getAllProducts = async (req, res, next) => {
         const products = await fetchAllProducts();
         if(products.rows.length === 0){
             throwError("No Products Found", 404);
-        }
-        console.log(products.rows);
+        }        
         return res.status(200).json(products.rows);
     } catch(err) {
         next(err);

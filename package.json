@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -11,6 +12,7 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.11.5",
+    "react-redux": "^9.1.2",
     "stripe": "^16.2.0",
     "uuid": "^9.0.1",
     "validator": "^13.12.0"
