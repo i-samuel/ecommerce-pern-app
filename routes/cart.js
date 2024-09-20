@@ -4,13 +4,17 @@ const { check } = require('express-validator');
 const { getCartItems, addToCart, removeCartItem, emptyCart, checkout } = require('../controllers/cart');
 const { isLoggedIn, setCartId } = require('../middleware');
 
-router.use('/', isLoggedIn, setCartId);
+//isLoggedIn
+
+router.use('/', 
+    //isLoggedIn, 
+    setCartId);
 
 //get cart items
 router.get('/', getCartItems);
 
 //add single product to cart
-router.post('/' ,addToCart);
+router.post('/', addToCart);
 
 ///checkout 
 router.post('/checkout', checkout);

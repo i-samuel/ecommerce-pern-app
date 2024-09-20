@@ -8,18 +8,18 @@ export default function Shop() {
     const dispatch = useDispatch();
     const isLoading = useSelector(isLoadingProducts);
     const products = useSelector(selectAllProducts);
-    console.log('shop 1');
+    
     useEffect(() => {
         dispatch(loadProducts());
     },[dispatch]);
 
-    console.log(products);
+   
 
     return(
-        <div class="container">
-            <div class="row row-cols-2 row-cols-md-3">
-                {products === '' ? 'hellooo' : products.map(item => 
-                    <ProductCard product={item}/>
+        <div className="container">
+            <div className="row row-cols-2 row-cols-md-3">
+                {products === '' ? 'hellooo' : products.map((item, index) => 
+                    <ProductCard key={index} product={item}/>
                 )}
             </div>            
         </div>

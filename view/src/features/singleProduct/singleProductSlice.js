@@ -3,14 +3,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const loadProductData = createAsyncThunk(
     'singleProductSlice/loadProductData',
     async(id) => {
-        try{
-            
+        try{            
             const endpoint = `http://localhost:4001/api/products/${id}`;
             const response = await fetch(endpoint);
-            console.log(response);
+            //console.log(response);
             if(response.ok) {
                 const jsonResponse = await response.json();
-                console.log(jsonResponse);
+                //console.log(jsonResponse);
                 return jsonResponse;
             }
         } catch(e) {
@@ -50,5 +49,7 @@ const singleProductSlice = createSlice({
 })
 
 export const selectProductData = (state) => state.singleProduct.product;
+
+export const isLoadingProduct = (state) => state.singleProduct.isLoadingProduct;
 
 export default singleProductSlice.reducer;

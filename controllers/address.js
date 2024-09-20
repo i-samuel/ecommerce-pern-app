@@ -49,7 +49,7 @@ exports.addNewAddress = async (req, res, next) => {
 exports.editAddress = async (req, res, next) => {
     try {
         const { isDefault } = req.body;
-
+        
         //if default address is editing
         if(req.address.defaultShipping === true) {
             const addressId = await updateAddress(req.address.id, true, req.body);

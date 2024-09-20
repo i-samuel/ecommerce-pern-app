@@ -6,14 +6,22 @@ const { body } = require('express-validator');
 const { checkValidationResults } = require('../middleware');
 
 
-router.get('/login', (req, res) => {
-    res.send('login page')
+router.get('/auth', (req, res) => {
+    console.log('inauth', req.isAuthenticated());
+    if(req.isAuthenticated()){
+        //res.redirect('/api/products');
+       return res.status(200).json(req.user);
+    } else {
+        return res.status(400).send();
+    }
 })
 
 router.post('/login', 
-    passport.authenticate("local", {
-        successRedirect: '/api/products',
-        failureRedirect: '/api/login'}));
+    passport.authenticate('local'), (req, res) => {
+        console.log('loginroute', req.isAuthenticated());
+        console.log('req.user', req.user);
+        return res.status(200).send();
+    });
 
 router.post('/register', 
     [body('email').isEmail().normalizeEmail(), 
@@ -22,11 +30,33 @@ router.post('/register',
     checkValidationResults, 
     addUser);
 
-router.get('/logout', (req, res, next) => {
-        req.logout((err) => {
+router.delete('/logout', (req, res, next) => {
+    try{
+        req.logOut((err) => {
             if (err) {return next(err); }
-            res.redirect('/');
+            
         });
+
+        const islogged = req.isAuthenticated();
+        if(islogged){
+            return res.status(400).send();
+        } else {
+            return res.status(204).send();
+        }
+        
+    } catch(e) {
+        return next(e);
+    }
+        
 });
+
+router.get('/session', (req, res, next) => {
+    if(req.isAuthenticated()){
+        const user = req.session.passport.user;
+        return res.status(200).send({ user });
+    } 
+    return res.status(404).send();
+    
+})
 
 module.exports = router;

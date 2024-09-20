@@ -1,0 +1,27 @@
+
+.shop-logo {
+    width: 150px;
+}
+
+.shop-header {
+    text-transform: uppercase;
+}
+
+.shop-main-menu li {
+    display: flex;
+    justify-content: space-around;
+    margin-right: 15px;
+    font-size: 18px;
+    color: #1e1e1e;
+    font-weight: 500;
+
+}
+
+.shop-secondary-menu li, .shop-secondary-menu a {
+    color: #fff;
+    font-size: 14px;
+}
+
+.shop-secondary-menu li a:link:active{
+    color: #febd69 !important;
+}

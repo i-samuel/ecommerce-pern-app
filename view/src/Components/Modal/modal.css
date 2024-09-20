@@ -1,0 +1,46 @@
+.user-edit-dialog {
+    width: 500px;
+    max-width: 80%;
+    min-width: 300px;
+    border-radius: 5px;
+    border: none;
+
+    transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
+
+    animation: close-dialog 0.5s forwards;
+    &[open] {
+        animation: open-dialog 0.5s forwards;
+    }
+}
+
+@keyframes open-dialog {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes close-dialog {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+.modal-close-btn {
+    color: #1e1e1e;
+    background-color: #fff;
+    border: none;
+    transition: 0.3s;
+    border-radius: 4px;
+}
+
+.modal-close-btn:hover {
+    background-color: #838383;
+    color: #fff;
+    
+}

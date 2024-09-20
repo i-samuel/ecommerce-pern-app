@@ -1,5 +1,5 @@
 const { addressByUserAndId, addNewAddress } = require("../model/address");
-const { fetchCartItems, updateCartItem, addCartItem, deleteCartItem, deleteAllCartItems, createOrder } = require("../model/cart");
+const { fetchItemCart, fetchCartItems, updateCartItem, addCartItem, deleteCartItem, deleteAllCartItems, createOrder } = require("../model/cart");
 const { findProductById } = require("../model/products");
 const { throwError, isValidAddress } = require("../utils");
 const validator = require('validator');
@@ -9,15 +9,16 @@ exports.getCartItems = async (req, res, next) => {
         const cartItems = await fetchCartItems(req.cartId);
        
         //check if any availble
+        /*
         if(cartItems.rows.length === 0){
             throwError('No Items in cart', 404);
-        }
+        }*/
         //calculate cart Total
         let cartTotal = 0;
         for(let item of cartItems.rows) {
             cartTotal += parseFloat(item.price) * parseFloat(item.cart_quantity);
         }
-       
+       console.log('cart herre');
         return res.status(200).json({
             cart: cartItems.rows,
             cartTotal
@@ -33,9 +34,11 @@ exports.addToCart = async (req, res, next) => {
     try{        
         const itemId = parseFloat(req.body.id);
         const quantity = parseFloat(req.body.quantity);
-        
+       
+        console.log(req.cartId, itemId, quantity);
         //check whether id and quantity is valid
         if(isNaN(itemId) || isNaN(quantity) || itemId < 0 || quantity <= 0 || quantity % 1 !== 0 || itemId % 1 !== 0) { 
+            
             throwError('Bad Request', 400) 
         };
         
@@ -44,20 +47,23 @@ exports.addToCart = async (req, res, next) => {
         if(checkItem.rows.length === 0) {
             throwError('Product not found', 404);
         }
-
+        
         //check if ordered quantity available in stock
         if(checkItem.rows[0].quantity === 0) {
-            throwError('Product Not Available to Purchase');
+            console.log('here454');
+            throwError('Product Not Available to Purchase', 400);
         }else if(checkItem.rows[0].quantity < quantity) {
-            throwError('Product quantity not Available to Purchase');
+            console.log('here45455');
+            throwError('Product quantity not Available to Purchase', 400);
         }
-
+        
         //if product already exists on cart_products, only update the quantity
         const checkAlreadyExists = await fetchItemCart(req.cartId, itemId);
 
         if(checkAlreadyExists.rows.length > 0) {
+            console.log('here');
             const updated = await updateCartItem(checkAlreadyExists.rows[0].id, quantity);
-
+            
             if(updated.rows.length === 0) {
                 throwError("Conncection Error", 500);
             }
@@ -65,6 +71,7 @@ exports.addToCart = async (req, res, next) => {
 
         } else {
             //else add a new item to cart_products
+            
             const added = await addCartItem(req.cartId, itemId, quantity);
             if(added.rows.length === 0 ) {
                 throwError('Product failed to add', 400);
@@ -97,7 +104,7 @@ exports.removeCartItem = async (req, res, next) => {
 
         const deleteItem = await deleteCartItem(req.cartId, productId);
         if(deleteItem.rows.length === 0){
-            throwError("Bad Request")
+            throwError("Bad Request", 400);
         } else {
             res.status(204).send();
         }
@@ -109,13 +116,8 @@ exports.removeCartItem = async (req, res, next) => {
 
 exports.emptyCart = async (req, res, next) => {
     try{
-        /*
-        const itemCount = await fetchItemCount(req.cartId);
-        if(parseInt(itemCount.rows[0].count) === 0){
-            throwError('Bad Request', 400);
-        }*/
         const emptyCart = await deleteAllCartItems(req.cartId);
-        console.log(emptyCart);
+        
         return res.status(204).send();
     } catch(err) {
         next(err);

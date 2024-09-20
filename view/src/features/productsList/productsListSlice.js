@@ -1,18 +1,32 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import fetch from 'cross-fetch';
+import axios from 'axios';
 
 export const loadProducts = createAsyncThunk(
     'productsList/loadProducts',
     async() => {
         try{
-            console.log('here 1');
+            /*
+            axios.get(endpoint)
+            .then((response) => {
+                if(response.ok){
+                    const jsonResponse = await response.json();
+                }
+            })*/
             const endpoint = 'http://localhost:4001/api/products/';
-            const response = await fetch(endpoint);
-            console.log(response);
-            if(response.ok) {
+            const response = await fetch(endpoint, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            if(response.ok){
                 const jsonResponse = await response.json();
-                console.log(jsonResponse);
                 return jsonResponse;
             }
+            //const response = await axios.get(endpoint);
+            
         } catch(e) {
             console.error('Error getting products data.');
         }

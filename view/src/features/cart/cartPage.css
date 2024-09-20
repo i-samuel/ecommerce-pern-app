@@ -1,0 +1,15 @@
+
+
+.cart-empty-note {
+    padding-top: 150px !important;
+}
+
+.cart-empty-btn {
+    font-size: 14px !important;
+
+}
+
+.cart-empty-btn:hover {
+    background-color: rgb(233, 233, 233) !important;
+    border-radius: 2px !important;
+}

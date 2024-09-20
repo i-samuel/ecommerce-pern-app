@@ -19,6 +19,7 @@ const addressCheckArr = [ check('firstName').trim().notEmpty().escape(),
 //router.use('/', isLoggedIn, isAccountOwner);
 
 router.param('addressId', async (req, res, next, id) => {
+             console.log('address edit');
         let addressId = parseInt(id);
         try {
             //check if address exists for the current user

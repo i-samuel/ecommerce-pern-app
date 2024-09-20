@@ -5,16 +5,22 @@ const pool = require('./model/database');
 function initialize (passport) {
 
     passport.use(new LocalStrategy(
+        //email is used as username for passport-local
+        
         async function (username, password, done) {
-            pool.query('SELECT * FROM users WHERE username=$1', [username], (err, user) => {
-                
+           
+            pool.query('SELECT * FROM users WHERE email=$1', [username], (err, user) => {
+                console.log('hereeee');
                 if(err) {return done(err);}
-                if(user.rows.length === 0) { return done(null, false); }
+                console.log(username);
+                if(user.rows.length === 0) { 
+                    
+                    return done(null, false); }
     
                 bcrypt.compare(password, user.rows[0].password, (err, verified) => {
                     if(err) { return done(err); }
                     
-                    if(verified){ console.log('here');
+                    if(verified){ 
                         
                         return done(null, user.rows[0]); }
     
@@ -32,7 +38,7 @@ function initialize (passport) {
     
     //deserialize user
     passport.deserializeUser((id, done) => {
-        pool.query('SELECT id, username FROM users WHERE id = $1', [id], (err, results) => {
+        pool.query('SELECT id, email FROM users WHERE id = $1', [id], (err, results) => {
             if(err) return done(err);
             return done(null, results.rows[0]);
         })

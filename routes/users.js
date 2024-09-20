@@ -10,10 +10,10 @@ const { getAllUsers, changePassword, editUserInfo, getUserInfo } = require('../c
 const { throwError } = require('../utils');
 const { checkValidationResults, isLoggedIn, isAccountOwner } = require('../middleware');
 
-router.use('/:userId', isLoggedIn, isAccountOwner);
+//router.use('/:userId', isLoggedIn, isAccountOwner);
 
 router.param('userId', async (req, res, next, id) => {
-    let userId = parseInt(id);
+    /*let userId = parseInt(id);
     try {
         //check if user exists
         const found = await findUserById(userId);
@@ -26,7 +26,10 @@ router.param('userId', async (req, res, next, id) => {
         }
     } catch(err) {
         next(err);
-    }
+    }*/
+        req.accountId= 1030;
+        next();
+    
 })
 
 //adddress router
@@ -42,7 +45,7 @@ router.get('/:userId', getUserInfo);
 
 //edit user info
 router.put('/:userId',  
-    [body('email').isEmail().normalizeEmail(), body('firstName').trim().notEmpty().escape(), body('lastName').trim().notEmpty().escape() ], 
+    [body('email').isEmail().escape(), body('firstName').trim().notEmpty().escape(), body('lastName').trim().notEmpty().escape() ], 
     checkValidationResults, 
     editUserInfo
 );

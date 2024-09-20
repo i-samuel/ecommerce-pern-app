@@ -2,6 +2,7 @@ const pool = require('./database');
 
 //get all products
 const fetchAllProducts = () => {
+    
     return pool.query('SELECT * FROM products')
 };
 

@@ -21,11 +21,11 @@ exports.addUser = async (req, res, next) => {
         //check if username and email already exists
         const usernameExists = await findByUsername(req.body.username);
         if(usernameExists.rows.length > 0){
-            throwError('Username already exists', 400);
+            throwError('Username Already exists', 400);
         }
         const emailExists = await findByEmail(req.body.email);
         if(emailExists.rows.length >0){
-            throwError('Email already exists', 400);
+            throwError('Email Already exists', 400);
         }
         //hash password
         const hash = await passwordHash(req.body.password);
@@ -50,7 +50,7 @@ exports.getUserInfo = async (req, res, next) =>{
         //get addresses for the user
         const userAddresses = await fetchUserAddresses(req.accountId);
 
-        let user= {...userInfo.rows[0], 
+        let user= { personalInfo: userInfo.rows[0], 
                     addresses: userAddresses.rows};
         return res.status(200).json( user );
         

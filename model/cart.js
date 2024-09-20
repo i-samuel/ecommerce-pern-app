@@ -13,11 +13,11 @@ const fetchCartItems = (cartId) => {
 /*
 const fetchItemCount = (cartId) => pool.query('SELECT COUNT(cart_id) from cart_products WHERE cart_id = $1', [cartId]);
 */
-/*
+
 const fetchItemCart = (cartId, productId) => {
     return pool.query('SELECT id FROM cart_products WHERE cart_id = $1 AND product_id = $2', [cartId, productId]);
 };
-*/
+
 
 //update an item(quantity) already in the cart
 const updateCartItem = (rowId, quantity) => pool.query('UPDATE cart_products SET cart_quantity = $1 WHERE id = $2 RETURNING id', [quantity, rowId]);
@@ -62,4 +62,4 @@ const createOrder = async (cartId, userId, orderTotal, shipId, billId) => {
     }
 }
 
-module.exports = { fetchCartItems, getCartId, updateCartItem, addCartItem, deleteCartItem,  deleteAllCartItems, createOrder};
+module.exports = { fetchItemCart, fetchCartItems, getCartId, updateCartItem, addCartItem, deleteCartItem,  deleteAllCartItems, createOrder};

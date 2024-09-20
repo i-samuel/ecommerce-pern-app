@@ -41,7 +41,7 @@ const addUserToDb = async ({ username, firstName, lastName, email, password}) =>
 const fetchUserInfo = async (userId) => pool.query('SELECT id, username, first_name, last_name, email FROM users WHERE id = $1', [userId]);
 
 //get all addresses related to a single user
-const fetchUserAddresses = async (userId) => pool.query('SELECT id, first_name, last_name, address_1, address_2, city, state, postal_code, country, is_default_shipping AS default FROM user_address WHERE user_id = $1', [userId]);
+const fetchUserAddresses = async (userId) => pool.query('SELECT id, first_name, last_name, address_1, address_2, city, state, postal_code, country, is_default_shipping AS isdefault FROM user_address WHERE user_id = $1 ORDER BY id DESC', [userId]);
 
 //update user info in user table
 const updateUserInfo = (id, firstName, lastName, email) => pool.query('UPDATE users SET first_name = $1, last_name = $2, email = $3 WHERE id = $4 RETURNING id, first_name, last_name, email', [firstName, lastName, email, id]);
