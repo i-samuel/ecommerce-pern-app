@@ -3,7 +3,7 @@ const router = express.Router();
 const { throwError } = require('../utils');
 const { findCategoryById } = require('../model/category');
 const validator = require('validator');
-const { check, body } = require('express-validator');
+const {  body } = require('express-validator');
 const { getAllCategories, getByCategory, editCategory, deleteCategory, addNewCategory } = require('../controllers/category');
 const { checkValidationResults } = require('../middleware');
 

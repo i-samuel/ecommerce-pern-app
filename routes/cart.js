@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
-const { getCartItems, addToCart, removeCartItem, emptyCart, checkout } = require('../controllers/cart');
+const { getCartItems, addToCart, removeCartItem, emptyCart, createOrder } = require('../controllers/cart');
 const { isLoggedIn, setCartId } = require('../middleware');
 
-//isLoggedIn
-
 router.use('/', 
-    //isLoggedIn, 
+    isLoggedIn, 
     setCartId);
 
 //get cart items
@@ -17,7 +14,7 @@ router.get('/', getCartItems);
 router.post('/', addToCart);
 
 ///checkout 
-router.post('/checkout', checkout);
+router.post('/create-order', createOrder);
 
 //remove single item from cart
 router.delete('/', removeCartItem);

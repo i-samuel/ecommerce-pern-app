@@ -33,6 +33,13 @@ const deleteCartItem = (cartId, productId) => pool.query('DELETE FROM cart_produ
 //empty cart
 const deleteAllCartItems = (cartId) => pool.query('DELETE FROM cart_products WHERE cart_id = $1 RETURNING *', [cartId]);
 
+
+//mark order as succesfull; payment successfull
+const updateOrderStatus = (orderId, newStatus) => pool.query('UPDATE orders SET payment_status = $1 WHERE id = $2', [newStatus, orderId]);
+
+//remove Order products in case of payment fail
+const removeOrderProducts = (orderId) => pool.query('DELETE FROM orders_products WHERE order_id = $1', [orderId]);
+
 //create order in orders
 //copy products to orders_products
 //remove cart_products items
@@ -40,19 +47,19 @@ const createOrder = async (cartId, userId, orderTotal, shipId, billId) => {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const order = await client.query('INSERT INTO orders (user_id, order_date, shipping_id, billing_id, order_total) VALUES ($1, to_timestamp($2), $3, $4, $5) RETURNING id', [userId, Date.now()/1000.00, shipId, billId, orderTotal]);
+        const order = await client.query('INSERT INTO orders (user_id, order_date, shipping_id, billing_id, order_total, payment_status) VALUES ($1, to_timestamp($2), $3, $4, $5, $6) RETURNING id', [userId, Date.now()/1000.00, shipId, billId, orderTotal, 'pending']);
         
         const orderProducts = await client.query('INSERT INTO orders_products (order_id, product_id, ordered_quantity) SELECT $1, product_id, cart_quantity FROM cart_products WHERE cart_id=$2 RETURNING id', [order.rows[0].id, cartId]);
 
-        const deleted = await client.query('DELETE FROM cart_products WHERE cart_id = $1 RETURNING id', [cartId]);
+        //const deleted = await client.query('DELETE FROM cart_products WHERE cart_id = $1 RETURNING id', [cartId]);
         
-        if(orderProducts.rows.length === 0 || deleted.rows.length === 0 || order.rows.length === 0) {
+        if(orderProducts.rows.length === 0 || order.rows.length === 0) {
             throw new Error("Database Connection Error");
         } 
         
-        await client.query('COMMIT');
+        await client.query('COMMIT'); 
         
-        return order.rows[0].id;          
+        return order;          
 
     } catch(e) {
         await client.query('ROLLBACK');
@@ -62,4 +69,7 @@ const createOrder = async (cartId, userId, orderTotal, shipId, billId) => {
     }
 }
 
-module.exports = { fetchItemCart, fetchCartItems, getCartId, updateCartItem, addCartItem, deleteCartItem,  deleteAllCartItems, createOrder};
+
+
+
+module.exports = { fetchItemCart, fetchCartItems, getCartId, updateCartItem, addCartItem, deleteCartItem,  deleteAllCartItems, createOrder, updateOrderStatus, removeOrderProducts};

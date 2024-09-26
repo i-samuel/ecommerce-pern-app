@@ -12,6 +12,12 @@
     font-size: 22px;
  }
 
+ .cart-item-img img{
+   width: 100px;
+   height: 150px;
+   object-fit: cover;
+ }
+
  .cart-count-parent button, .cart-count-parent input {
     height: 40px;
     width: 40px;
@@ -27,28 +33,62 @@
     width:40%;
  }
 
- @media only screen and (max-width: 900px){
-    .cart-count-parent button, .cart-count-parent input {
-        height: 34px;
-        width: 34px;
-        
-     }
-
-     .cart-item-title {
-        font-size: 18px;
-     }
-
-     
+ .cart-remove:hover{
+   
+   cursor: pointer;
  }
 
+ .cart-item svg {
+   color: #4a4a4a;
+ }
+
+ .cart-item svg:hover {
+   color: #1d1d1d;
+ }
+
+ @media only screen and (max-width: 1010px){
+   .cart-item-img img{
+      width: 100px;
+      height: 120px;
+      object-fit: cover;
+    }
+}
+
+
  @media only screen and (max-width: 900px){
-    
+
+    .cart-count-parent button, .cart-count-parent input {
+        height: 34px;
+        width: 34px;        
+     }
+     
+     .cart-item-title {
+        font-size: 18px;
+     }     
+ }
+
+ @media only screen and (max-width: 900px){    
 
      .cart-item-title {
         font-size: 16px;
      }
-
      
  }
+
+ @media only screen and (max-width: 500px){
+   .cart-item-img img{
+      width: 80px;
+      height: 100px;
+      object-fit: cover;
+    }
+}
+
+@media only screen and (max-width: 400px){
+   .cart-item-img img{
+      width: 60px;
+      height: 80px;
+      object-fit: cover;
+    }
+}
 
  

@@ -1,5 +1,4 @@
 const { fetchAllUsers, findByEmail, findByUsername , addUserToDb, findByEmailNot, updatePassword, updateUserInfo, fetchUserInfo, fetchUserAddresses } = require('../model/users');
-
 const { throwError, passwordHash } = require('../utils');
 
 exports.getAllUsers = async (req, res, next) => {
@@ -16,8 +15,7 @@ exports.getAllUsers = async (req, res, next) => {
 
 //Register User
 exports.addUser = async (req, res, next) => {
-    try {      
-             
+    try {        
         //check if username and email already exists
         const usernameExists = await findByUsername(req.body.username);
         if(usernameExists.rows.length > 0){
@@ -32,6 +30,7 @@ exports.addUser = async (req, res, next) => {
 
         const addedUser = await addUserToDb({...req.body, password: hash});           
         return res.status(201).send(`new user added ${addedUser}`);
+        
     } catch(err) {
         next(err);
     }

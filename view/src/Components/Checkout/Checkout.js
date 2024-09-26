@@ -1,158 +1,245 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isLoadingAccount, loadAccount, selectDefault, selectExtra, selectInfo } from "../../features/account/accountSlice";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { Link } from "react-router-dom";
 import './checkout.css';
+import { isLoadingAccount, loadAccount, selectDefault, selectExtra, selectInfo } from "../../features/account/accountSlice";
+import { loadCart, selectCartTotal } from "../../features/cart/cartSlice";
+import { selectUser } from "../../features/session/sessionSlice";
 import CartSummary from "../CartSummary/CartSummary";
-import { selectCartTotal } from "../../features/cart/cartSlice";
+import CheckoutForm from "./CheckoutForm";
+import CheckoutShipping from "./CheckoutShipping";
+import CheckoutBilling from "./CheckoutBilling";
+import { createNewOrder } from "../../utils";
+import { validateAddress } from "../../utils/helpers";
+
+const stripePromise = loadStripe('pk_test_51PdHgVRwTg3AQ4v27vhivxxKyvA1j2GZk78sljfiVCEHhHt69dUngpT5byN8jFZppGVOt8GA471BUIFdlrUawI8G00QN18OPQt');
+
+const addressSamp = {
+  firstName: '',
+  lastName: '',
+  address1: '',
+  city: '',
+  country: '',
+  state: '',
+  postalCode: ''
+};
 
 export default function Checkout() {
 
-  const [orderShipId, setOrderShipId] = useState('');
-  const [newShipObj, setNewShipObj] = useState({});
-
   const dispatch = useDispatch();
-  
+  //current user
+  const user = useSelector(selectUser);
   //user info from state
   const personalInfo = useSelector(selectInfo) || null;
-
   //defaut address
   const defaultShip = useSelector(selectDefault) || null;
-
   //other addtress(non-default)
-  const additionalShipping = useSelector(selectExtra) || null;
-  
+  const additionalShipping = useSelector(selectExtra) || null;  
   const isAccountLoading = useSelector(isLoadingAccount);
+  //cart Total
+  const cartTotal = useSelector(selectCartTotal); 
 
-  const cartTotal = useSelector(selectCartTotal);  
+  //local states
 
-  console.log('defaultship', defaultShip);
-
-  console.log('add', additionalShipping);
-  console.log('addressId', orderShipId);
-
-  console.log('shipAD', newShipObj);
+  //Ship address order id selected by user
+  const [orderShipId, setOrderShipId] = useState('');
+  //New address for shipping, if selected
+  const [newShipObj, setNewShipObj] = useState(addressSamp);
+  //Bill address order id selected by user
+  const [orderBillId, setOrderBillId] = useState('');
+  //New address for billing, if selected
+  const [newBillObj, setNewBillObj] = useState(addressSamp);
+  //if billing is same as shipping address
+  const [sameAsShipping, setSameAsShipping] = useState(true);
 
   useEffect(() =>{
-    dispatch(loadAccount(1030));
+    dispatch(loadAccount(user));
+    dispatch(loadCart());
   },[dispatch]);
 
+  //set selected values on load 
   useEffect(() => {
     if(defaultShip){
         setOrderShipId(defaultShip.id);
-    } else if (!additionalShipping && additionalShipping.length > 0){
+        setOrderBillId(defaultShip.id);
+    } else if (additionalShipping && additionalShipping.length > 0){
         setOrderShipId(additionalShipping[0].id);
+        setOrderBillId(additionalShipping[0].id);
     } else {
         setOrderShipId('new');
+        setOrderBillId('new');
     }
   }, [defaultShip, additionalShipping]);
 
-  const handleAddressChange = (e) => {
+  /** Shipping address handlers**/
+
+  const handleShippingSelect = (e) => {
     const val = e.target.value;
     setOrderShipId(val);
   }
 
-  const handleInputChange = (e) => {
+  const handleShippingInput = (e) => {
         const { name, value } = e.target;
         setNewShipObj((prevObj) => ({...prevObj, [name] : value}));
   }
 
+  /** Billing address handlers **/
+
+  const handleBillingSelect = (e) => {
+    const val = e.target.value;
+    setOrderBillId(val);
+  }
+
+  const handleBillingInput = (e) => {
+    const { name, value } = e.target;
+    setNewBillObj((prevObj) => ({...prevObj, [name] : value}));
+  }
+
+  const handleBillingRadio = ({target}) => {
+    if(target.value === '1'){
+      setSameAsShipping(true);
+    } else if (target.value === '0') {
+      setSameAsShipping(false);
+    }    
+  }
+
+  //stripe elements options
+  const options = {
+    mode: 'payment',
+    amount: 1099,
+    currency: 'usd',
+    appearance: {theme: 'stripe'},
+  };
+
+  //create order on server 
+  const handleCreateOrder = async () => {
+        let shipping = {};
+        let billing = {};
+
+        //set shipping address for req
+        if (orderShipId == 'new'){
+
+          //validate new addresses
+          if (!validateAddress(newShipObj)) {
+            alert("Check Shipping Address Details Again");
+            return;
+          }
+
+          shipping = {
+            id: orderShipId,
+            ...newShipObj
+          };
+
+        } else { 
+          shipping = {
+            id: orderShipId,
+          };
+        }
+        
+        //set billing address for req
+        if (sameAsShipping){
+          billing = {
+            sameAsShipping: true,          
+          }
+        } else if(orderBillId == 'new') {
+          //validate new addresses
+          if(!validateAddress(newBillObj)){
+            alert("Check Billing Address Details Again");
+            return;
+          }
+
+          billing = {
+            sameAsShipping: false,
+            id: orderBillId,
+            ...newBillObj,
+          }
+
+        } else {
+          billing = {
+            sameAsShipping: false,
+            id: orderBillId
+          }
+        }
+
+        //final object to send
+        const reqObj = {
+            shipping,
+            billing
+        };
+
+        const orderSuccess = await createNewOrder(reqObj);
+        return orderSuccess;
+  };
+
   return (      
-        <div className="container px-0">
-            <div className="row mt-4 mb-5 mx-1">
-              <div className="col-8">
-                <h1 className="fs-3 text-uppercase fw-semibold text-center text-sm-start">Checkout</h1>
-                <div class="row">
-                    <div class="col">
+        <div className="container">
+            <div className="row">
+              <div className="col mt-4">
+                <h1 className="fs-2 text-uppercase display-6 fw-semibold text-center ">Checkout</h1>
+                <p className="text-center checkout-nav">
+                  <span><Link to='/'>Home</Link></span>{'  >  '}<span><Link to='/cart'>Cart</Link></span>{'  >  '}<span>Checkout</span>
+                </p>
+              </div>
+            </div>
+            <div className="row mt-4 mb-5 mx-1 justify-content-center">
+              <div className="col col-lg-8 col-xl-5 order-2">
+                
+                <div className="row py-4 border-bottom">
+                    <div className="col">
                         <h4 className="fs-4">Contact</h4>
                         {personalInfo? 
                         <p className="fs-6">{`${personalInfo.first_name} ${personalInfo.last_name} (${personalInfo.email})`}</p>
                         : 
                         <p>Loading Data...</p>
-                        }
-                        
+                        }                        
                     </div>
                 </div>
                 {isAccountLoading ? 'loading Shipping data' :
-                <div className="row">
-                    <div className="col shipping-col">
-                        <h4 className="fs-4">Shipping</h4>
-                        <label class="form-label" for="selectAdd">
-                            Saved Addresses
-                        </label>
-                        <select id="selectAdd" value={orderShipId} onChange={handleAddressChange} class="form-select" aria-label="Default select example" >
-                            {
-                                defaultShip ? 
-                                <AddressOption addressObj={defaultShip}></AddressOption>
-                                 : ''
-                            }
-                           
-                            {additionalShipping? additionalShipping.map(item => 
-                                (<AddressOption addressObj={item}></AddressOption>)) 
-                                : ''}
-                            <option value="new">Add New Address</option>
-                        </select>
+                <CheckoutShipping 
+                  shipId={orderShipId} 
+                  shipSelectHandler={handleShippingSelect} 
+                  defaultAdd={defaultShip} 
+                  otherAdd={additionalShipping} 
+                  newAddObj={newShipObj} 
+                  inputHandler={handleShippingInput}
+                />                
+                }
 
-                        {orderShipId === 'new' ? 
-                        <form>
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label for="ea_first_name" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="na_first_name" name="first_name" value={newShipObj.first_name} onChange={handleInputChange} required/>
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <label for="ea_last_name" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="na_last_name" name="last_name" value={newShipObj.last_name} onChange={handleInputChange} required/>
-                                </div>                        
-                            </div>
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="na_address_1" class="form-label">Address 1</label>
-                                    <input type="text" class="form-control" id="na_address_1" name="address_1" value={newShipObj.address_1} onChange={handleInputChange} required/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="na_address_2" class="form-label">Apartment, suite, etc(optional)</label>
-                                    <input type="text" class="form-control" id="na_address_2" name="address_2" value={newShipObj.address_2} onChange={handleInputChange}/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 mb-3">
-                                    <label for="na_city" class="form-label">City</label>
-                                    <input type="text" class="form-control" id="na_city" name="city" value={newShipObj.city} onChange={handleInputChange}/>
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    <label for="na_country" class="form-label">Country</label>
-                                    <input type="text" class="form-control" id="na_country" name="country" value={newShipObj.country} onChange={handleInputChange}/>
-                                </div>
-                                <div class="col-lg-4 mb-3">
-                                    <label for="na_state" class="form-label">State</label>
-                                    <input type="text" class="form-control" id="na_state" name="state" value={newShipObj.state} onChange={handleInputChange}/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col mb-3">
-                                    <label for="na_postal_code" class="form-label">Zip Code</label>
-                                    <input type="text" class="form-control" id="na_postal_code" name="postal_code" value={newShipObj.postal_code} onChange={handleInputChange} required/>
-                                </div>
-                            </div>
-                            </form>
-                            : 
-                            ''
+                <div className="row py-4 border-bottom">
+                    <div className="col">
+                        <h4 className="fs-4">Payment Details</h4>
+                        {cartTotal?
+                        <Elements stripe={stripePromise} options={options}>
+                            <CheckoutForm handleNewOrder={handleCreateOrder}/>
+                        </Elements>
+                        : ''
                         }
+                        
                     </div>
-                </div>
-              }
+                </div>                
 
-              </div>              
-              <CartSummary total={cartTotal} shipping={0} tax={0}/>
+                {isAccountLoading ? 'loading Shipping data' :
+                <CheckoutBilling 
+                  shipId={orderBillId} 
+                  shipSelectHandler={handleBillingSelect} 
+                  defaultAdd={defaultShip} 
+                  otherAdd={additionalShipping} 
+                  newAddObj={newBillObj} 
+                  inputHandler={handleBillingInput} 
+                  radioBtnHandler={handleBillingRadio} s
+                  ameAsShipping={sameAsShipping}/>                
+                }
+
+              </div>
+              <div className="col-lg-4 order-1 order-lg-3 text-center cart-summary">
+                <div className="bg-light h-100 py-5 px-4 pt-6">
+                  <CartSummary total={cartTotal} shipping={0} tax={0}/>
+                </div>
+              </div>
             </div>
         </div>
     );
 }
 
-const AddressOption = ({addressObj}) => {
-    return(
-        <option value={addressObj.id}>{`${addressObj.first_name} ${addressObj.last_name} - ${addressObj.address_1} ${addressObj.address_1}, ${addressObj.address_2}, ${addressObj.city}, ${addressObj.state} ${addressObj.postal_code}, ${addressObj.country}`}</option>
-    )
-}

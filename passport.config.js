@@ -10,12 +10,11 @@ function initialize (passport) {
         async function (username, password, done) {
            
             pool.query('SELECT * FROM users WHERE email=$1', [username], (err, user) => {
-                console.log('hereeee');
                 if(err) {return done(err);}
-                console.log(username);
                 if(user.rows.length === 0) { 
                     
-                    return done(null, false); }
+                    return done(null, false); 
+                }
     
                 bcrypt.compare(password, user.rows[0].password, (err, verified) => {
                     if(err) { return done(err); }
@@ -44,6 +43,5 @@ function initialize (passport) {
         })
     })
 }
-
 
 module.exports = initialize;

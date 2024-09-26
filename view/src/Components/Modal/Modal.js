@@ -1,40 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
 import './modal.css';
 
+//User Account details Edit Modal Dialog
 export default function Modal({ isOpen, onClose, children}) {
+    //handle open/close dialog
     const [ isModalOpen, setModalOpen ] = useState(isOpen);
     const mRef = useRef(null);
-    console.log('dialog', isModalOpen);
+    
     useEffect(() => {
         setModalOpen(isOpen);
     }, [isOpen]);
 
-    useEffect(() => {
-        console.log('dialog effect',  mRef.current);
-        const modalElement = mRef.current;
-        console.log('modal element',  modalElement);
+    useEffect(() => {    
+        const modalElement = mRef.current;        
         if(modalElement) {
             if (isModalOpen){
-                console.log('ttt');
                 modalElement.showModal();
             } else {
-                console.log('close');
                 modalElement.close();
             }
         }
     }, [isModalOpen]);
 
+    //handle close model
     const handleCloseModal = () => {
-        console.log('in close 1');
         if (onClose) {   
           onClose();
         }
-        console.log('in close 2');
         setModalOpen(false);
     };
 
+    //close when escape key presses
     const handleKeyDown = (e) => {
-        console.log(e);
         if (e.key === "Escape") {
             handleCloseModal();
         }
@@ -43,24 +40,19 @@ export default function Modal({ isOpen, onClose, children}) {
     return (
         <dialog className="user-edit-dialog px-2 px-sm-4 pt-4 pb-4" ref={mRef}  onKeyDown={handleKeyDown}>
             <div className="container">                
-                <div class="row">
+                <div className="row">
                     <div className="d-flex justify-content-end">
                         <button className="modal-close-btn px-2"  onClick={handleCloseModal}>
                             X
                         </button>
                     </div>
                 </div>
-                <div class="row pe-2">
-                    <div class="col">
+                <div className="row pe-2">
+                    <div className="col">
                         {children}
                     </div>                
-                </div>
-            
-            </div>          
-            
-            
-            
+                </div>            
+            </div>
         </dialog>
-      );
-    
+    );    
 }

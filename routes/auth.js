@@ -5,27 +5,25 @@ const { addUser } = require('../controllers/users');
 const { body } = require('express-validator');
 const { checkValidationResults } = require('../middleware');
 
-
+/*
 router.get('/auth', (req, res) => {
-    console.log('inauth', req.isAuthenticated());
     if(req.isAuthenticated()){
-        //res.redirect('/api/products');
        return res.status(200).json(req.user);
     } else {
         return res.status(400).send();
     }
-})
+})*/
 
+//login route
 router.post('/login', 
     passport.authenticate('local'), (req, res) => {
-        console.log('loginroute', req.isAuthenticated());
-        console.log('req.user', req.user);
         return res.status(200).send();
-    });
+});
 
+//user register route
 router.post('/register', 
     [body('email').isEmail().normalizeEmail(), 
-        body('password').trim().isStrongPassword(), 
+        body('password').trim().isStrongPassword({minLength: 6,minUppercase: 0, minLowercase: 0, minSymbols: 0}), 
         body('username').trim().notEmpty().escape()], 
     checkValidationResults, 
     addUser);
@@ -58,5 +56,6 @@ router.get('/session', (req, res, next) => {
     return res.status(404).send();
     
 })
+
 
 module.exports = router;

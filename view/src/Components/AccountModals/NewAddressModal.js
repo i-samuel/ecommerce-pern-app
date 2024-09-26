@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
-
 
 export default function NewAddressModal({ onSubmit, isOpen, onClose }) {
     
@@ -55,64 +54,62 @@ export default function NewAddressModal({ onSubmit, isOpen, onClose }) {
         >   
             {!formState ? '' :
                 <form onSubmit={handleSubmit}>
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <label for="ea_first_name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="na_first_name" name="first_name" value={formState.first_name} onChange={handleInputChange} required/>
+                    <div className="row">
+                        <div className="col-6 mb-3">
+                            <label htmlFor="ea_first_name" className="form-label">First Name</label>
+                            <input type="text" className="form-control" id="na_first_name" name="first_name" value={formState.first_name} onChange={handleInputChange} required/>
                         </div>
-                        <div class="col-6 mb-3">
-                            <label for="ea_last_name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="na_last_name" name="last_name" value={formState.last_name} onChange={handleInputChange} required/>
+                        <div className="col-6 mb-3">
+                            <label htmlFor="ea_last_name" className="form-label">Last Name</label>
+                            <input type="text" className="form-control" id="na_last_name" name="last_name" value={formState.last_name} onChange={handleInputChange} required/>
                         </div>                        
                     </div>
-                    <div class="row">
-                        <div class="col mb-3">
-                            <label for="na_address_1" class="form-label">Address 1</label>
-                            <input type="text" class="form-control" id="na_address_1" name="address_1" value={formState.address_1} onChange={handleInputChange} required/>
+                    <div className="row">
+                        <div className="col mb-3">
+                            <label htmlFor="na_address_1" className="form-label">Address 1</label>
+                            <input type="text" className="form-control" id="na_address_1" name="address_1" value={formState.address_1} onChange={handleInputChange} required/>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col mb-3">
-                            <label for="na_address_2" class="form-label">Apartment, suite, etc(optional)</label>
-                            <input type="text" class="form-control" id="na_address_2" name="address_2" value={formState.address_2} onChange={handleInputChange}/>
+                    <div className="row">
+                        <div className="col mb-3">
+                            <label htmlFor="na_address_2" className="form-label">Apartment, suite, etc(optional)</label>
+                            <input type="text" className="form-control" id="na_address_2" name="address_2" value={formState.address_2} onChange={handleInputChange}/>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4 mb-3">
-                            <label for="na_city" class="form-label">City</label>
-                            <input type="text" class="form-control" id="na_city" name="city" value={formState.city} onChange={handleInputChange}/>
+                    <div className="row">
+                        <div className="col-lg-4 mb-3">
+                            <label htmlFor="na_city" className="form-label">City</label>
+                            <input type="text" className="form-control" id="na_city" name="city" value={formState.city} onChange={handleInputChange}/>
                         </div>
-                        <div class="col-lg-4 mb-3">
-                            <label for="na_country" class="form-label">Country</label>
-                            <input type="text" class="form-control" id="na_country" name="country" value={formState.country} onChange={handleInputChange}/>
+                        <div className="col-lg-4 mb-3">
+                            <label htmlFor="na_country" className="form-label">Country</label>
+                            <input type="text" className="form-control" id="na_country" name="country" value={formState.country} onChange={handleInputChange}/>
                         </div>
-                        <div class="col-lg-4 mb-3">
-                            <label for="na_state" class="form-label">State</label>
-                            <input type="text" class="form-control" id="na_state" name="state" value={formState.state} onChange={handleInputChange}/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col mb-3">
-                            <label for="na_postal_code" class="form-label">Zip Code</label>
-                            <input type="text" class="form-control" id="na_postal_code" name="postal_code" value={formState.postal_code} onChange={handleInputChange} required/>
+                        <div className="col-lg-4 mb-3">
+                            <label htmlFor="na_state" className="form-label">State</label>
+                            <input type="text" className="form-control" id="na_state" name="state" value={formState.state} onChange={handleInputChange}/>
                         </div>
                     </div>
-                    <div class="row">                   
+                    <div className="row">
+                        <div className="col mb-3">
+                            <label htmlFor="na_postal_code" className="form-label">Zip Code</label>
+                            <input type="text" className="form-control" id="na_postal_code" name="postal_code" value={formState.postal_code} onChange={handleInputChange} required/>
+                        </div>
+                    </div>
+                    <div className="row">                   
                             
-                                <div class="col mb-3">
-                            <input class="form-check-input" type="checkbox" value="" id="na_isdefault" onChange={checkHandler}/>
-                            <label class="form-check-label" for="na_isdefault">
+                                <div className="col mb-3">
+                            <input className="form-check-input" type="checkbox" value="" id="na_isdefault" onChange={checkHandler}/>
+                            <label className="form-check-label" htmlFor="na_isdefault">
                                  Make Default?
                             </label>
                             </div>                         
                     </div>
-                    <div class="row">
-                        <div class="mb-3 d-flex justify-content-center">
-                            <button class="btn btn-secondary mt-3" type="submit">Add Address</button>
+                    <div className="row">
+                        <div className="mb-3 d-flex justify-content-center">
+                            <button className="btn btn-secondary mt-3" type="submit">Add Address</button>
                         </div>                    
-                    </div>
-                     
-                        
+                    </div>                    
                 </form>
             }
         </Modal> 

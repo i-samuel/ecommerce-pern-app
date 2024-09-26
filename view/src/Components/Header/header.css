@@ -1,4 +1,3 @@
-
 .shop-logo {
     width: 150px;
 }
@@ -12,9 +11,11 @@
     justify-content: space-around;
     margin-right: 15px;
     font-size: 18px;
-    color: #1e1e1e;
     font-weight: 500;
+}
 
+.shop-main-menu a {
+    color: #1e1e1e;
 }
 
 .shop-secondary-menu li, .shop-secondary-menu a {

@@ -1,3 +1,23 @@
 .shipping-col {
     padding-right: 20%;
 }
+
+.clicked-rd {
+    background-color: rgb(241, 241, 241);
+}
+
+.checkout-nav {
+    font-size: 12px;
+}
+
+select option{
+    font-size: 14px;    
+}
+
+@media only screen and (max-width: 480px) {
+
+    select option{
+        font-size: 12px;        
+    }
+    
+}

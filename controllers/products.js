@@ -3,18 +3,13 @@ const { fetchAllProducts, addNewProduct, deleteSingleProduct, updateProduct }  =
 
 //get all products
 exports.getAllProducts = async (req, res, next) => {
-    console.log('cookie',req.cookies);
-    console.log('products', req.isAuthenticated());
-    console.log('req.user', req.user);
-    console.log('req.session', req.session);
+
     try {
         const products = await fetchAllProducts();
         if(products.rows.length === 0){
             throwError("No Products Found", 404);
         }        
         return res.status(200).json(products.rows);
-        //const auth = ;
-        //return res.status(200).json(req.isAuthenticated());
     
     } catch(err) {
         next(err);

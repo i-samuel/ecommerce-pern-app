@@ -1,31 +1,24 @@
 const dotenv = require('dotenv');
 dotenv.config();
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 //const csurf = require('csurf');
 const apiRouter = require('./routes/apiRouter');
-
+const webhooksRouter = require('./routes/webhooks');
 const passport = require('passport');
 const initializePassport = require('./passport.config');
-
-//const cookieParser = require('cookie-parser')
-
+const path = require('path');
 
 //server
 const app = express();
 const PORT = process.env.PORT || 4001;
-//app.use(cookieParser());
-//cors
+
+app.use(express.static(path.join(__dirname, 'view/build')));
+
 app.use(cors({ origin: true, credentials: true }));
 
-//body-parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-
-//app.use(cookieParser({secret: process.env.SESSION_SECRET}));
 //passport
 initializePassport(passport);
 app.use(passport.initialize());
@@ -46,9 +39,9 @@ app.use(
 
 app.use(passport.session());
 
-
 //routes
 app.use('/api', apiRouter);
+app.use('/v2/webhooks', webhooksRouter);
 
 app.get('/', (req, res) => {
     res.send('hello home');
@@ -57,6 +50,7 @@ app.get('/', (req, res) => {
 //error handling
 app.use((err, req, res, next) => {{
     const status = err.status || 500;
+    console.log(err.message);
     res.status(status).json({error: err.message});
 }})
 

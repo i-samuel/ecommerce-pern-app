@@ -1,0 +1,9 @@
+.cart-count-parent input::-webkit-outer-spin-button, .cart-count-parent input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.cart-count-parent input[type=number] {
+    -moz-appearance: textfield;
+ }

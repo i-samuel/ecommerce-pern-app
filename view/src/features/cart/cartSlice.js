@@ -3,17 +3,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const loadCart = createAsyncThunk(
     'cart/loadCart',
     async() => {
-        try{
-           
+        try{           
             const endpoint = 'http://localhost:4001/api/cart/';
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include'
-            });
-          
+            });          
             if(response.ok) {
-                const jsonResponse = await response.json();   
-                       
+                const jsonResponse = await response.json();
                 return jsonResponse;
             }
         } catch(e) {
@@ -25,24 +22,23 @@ export const loadCart = createAsyncThunk(
 export const cartSlice = createSlice({
     name: 'cart',
     initialState : {
+        //store cart state as an Object
         cartItems: {},
         cartTotal: 0.00,
         isLoadingCart: false,
         failedLoadingCart: false,
     },
     reducers: {
+        //change quantity of singe item
         changeSingleQuantity: (state, action) => {
-            //console.log('state 1', state.cartTotal);
-            //console.log("payload", action.payload);
              state.cartItems[action.payload.id].cart_quantity = action.payload.quantity; 
              let newTotal = 0.00;
              for(const item in state.cartItems) {
                 newTotal += state.cartItems[item].price * state.cartItems[item].cart_quantity;
              }
-
-             state.cartTotal = newTotal;
-             //console.log('state 2', state.cartTotal);
+             state.cartTotal = parseFloat(newTotal.toFixed(2));
         },
+        //empty cart
         cartEmpty: (state, action) => {
             state.cartItems= {};
             state.cartTotal= 0.00;
@@ -75,6 +71,5 @@ export const { changeSingleQuantity, cartEmpty } = cartSlice.actions;
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotal = (state) => state.cart.cartTotal;
 export const isLoadingCart = (state) => state.cart.isLoadingCart;
-
 
 export default cartSlice.reducer;

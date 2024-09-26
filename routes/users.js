@@ -10,25 +10,23 @@ const { getAllUsers, changePassword, editUserInfo, getUserInfo } = require('../c
 const { throwError } = require('../utils');
 const { checkValidationResults, isLoggedIn, isAccountOwner } = require('../middleware');
 
-//router.use('/:userId', isLoggedIn, isAccountOwner);
+router.use('/:userId', isLoggedIn, isAccountOwner);
 
 router.param('userId', async (req, res, next, id) => {
-    /*let userId = parseInt(id);
+    let userId = parseInt(id);
     try {
         //check if user exists
         const found = await findUserById(userId);
 
         if(found.rows.length > 0){
-            req.accountId= found.rows[0].id;
+            req.accountId= parseInt(found.rows[0].id);
             next();
         } else {
             throwError('User Not Found', 404);
         }
     } catch(err) {
         next(err);
-    }*/
-        req.accountId= 1030;
-        next();
+    }
     
 })
 
@@ -51,6 +49,9 @@ router.put('/:userId',
 );
 
 //edit password
-router.put('/:userId/edit', [body('password').trim().isStrongPassword()], checkValidationResults, changePassword);
+router.put('/:userId/edit', 
+    [body('password').trim().isStrongPassword({minLength: 6,minUppercase: 0, minLowercase: 0, minSymbols: 0})], 
+    checkValidationResults, 
+    changePassword);
 
 module.exports = router;

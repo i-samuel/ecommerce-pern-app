@@ -9,13 +9,12 @@ export const loadAccount = createAsyncThunk(
                 method: 'GET',
                 credentials: 'include'
             });
-          
             if(response.ok) {
                 const jsonResponse = await response.json();              
                 return jsonResponse;
             }
         } catch(e) {
-            console.error('Error getting cart data.');
+            console.error('Error getting User data.');
         }
     }
 )
@@ -24,7 +23,6 @@ export const accountSlice = createSlice({
     name: 'account',
     initialState: {
         personalInfo: {},
-        //defaultShipping: {},
         shipping: [],
         isLoading: false,
         isFailedLoading: false
@@ -33,7 +31,6 @@ export const accountSlice = createSlice({
     reducers: {
         removeAccount: (state, action) => {
             state.personalInfo = {};
-            //state.defaultShipping =  {};
             state.shipping =  [];
         }
     },
@@ -46,7 +43,6 @@ export const accountSlice = createSlice({
             .addCase(loadAccount.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isFailedLoading = false;
-                console.log('action', action.payload);
                 state.personalInfo = action.payload.personalInfo;
                 state.shipping = action.payload.addresses;
                 state.defaultShipping = action.payload.addresses
@@ -62,7 +58,7 @@ export const { removeAccount } = accountSlice.actions;
 export const selectInfo = (state) => state.account.personalInfo;
 export const selectAddresses = (state) => state.account.shipping;
 export const isLoadingAccount = (state) => state.account.isLoading;
-export const selectDefault = (state) => state.account.shipping.find((item) => item.isdefault == true);
-export const selectExtra = (state) => state.account.shipping.filter((item) => item.isdefault != true);
+export const selectDefault = (state) => state.account.shipping.find((item) => item.isdefault === true);
+export const selectExtra = (state) => state.account.shipping.filter((item) => item.isdefault !==true);
 
 export default accountSlice.reducer;

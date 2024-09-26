@@ -32,20 +32,14 @@ exports.isAccountOwner = (req, res, next) => {
         return next();
     }
 }
-/*
+
 exports.setCartId = async (req, res, next) => {
     const userId = parseInt(req.user.id);
     const cart = await getCartId(userId);
     req.cartId = cart.rows[0].id;
     return next();
 }
-*/
 
-exports.setCartId = async (req, res, next) => {
-    
-    req.cartId = 24;
-    return next();
-}
 
 exports.viewSession = (req, res, next) => {
     

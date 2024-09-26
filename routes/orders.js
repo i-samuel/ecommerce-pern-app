@@ -5,7 +5,7 @@ const { findOrderById } = require('../model/orders');
 const { throwError } = require('../utils');
 const router = express.Router({mergeParams: true});
 
-//router.use('/', isLoggedIn, isAccountOwner);
+router.use('/', isLoggedIn, isAccountOwner);
 
 router.param('orderId', async (req, res, next, id) => {
     let orderId = parseInt(id);

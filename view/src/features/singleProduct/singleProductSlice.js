@@ -1,15 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loadProductData = createAsyncThunk(
-    'singleProductSlice/loadProductData',
+    'singleProduct/loadProductData',
     async(id) => {
         try{            
             const endpoint = `http://localhost:4001/api/products/${id}`;
             const response = await fetch(endpoint);
-            //console.log(response);
             if(response.ok) {
                 const jsonResponse = await response.json();
-                //console.log(jsonResponse);
                 return jsonResponse;
             }
         } catch(e) {

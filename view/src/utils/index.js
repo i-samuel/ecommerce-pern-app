@@ -1,20 +1,4 @@
-export const fetchProducts = async() => {
-    try{
-        const res = await fetch('/api/products/',{
-            
-            headers: {
-                credentials: 'same-origin',
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
-        const jsonResponse = await res.json();
-        return jsonResponse;
-    } catch (err) {
-        console.log(err);
-    }
-}
-
+//User Login
 export const login = async(email, password) => {
     try {
         const res = await fetch('http://localhost:4001/api/login/', {
@@ -35,6 +19,7 @@ export const login = async(email, password) => {
     }
 }
 
+//User Register
 export const signUp = async(email, username, password) => {
     try{
         const res = await fetch('http://localhost:4001/api/register/', {
@@ -42,9 +27,7 @@ export const signUp = async(email, username, password) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-
-            body: JSON.stringify({email, username, password})
-            
+            body: JSON.stringify({email, username, password})            
         });
         console.log(res);
         if (res.ok) {            
@@ -58,6 +41,7 @@ export const signUp = async(email, username, password) => {
     }
 }
 
+//User Logout
 export const logout = async () => {
     try{
         const res = await fetch('http://localhost:4001/api/logout/', {
@@ -75,6 +59,7 @@ export const logout = async () => {
     }
 }
 
+//Fetch if User logged in or not
 export const fetchSession = async () => {
     try{
         const res = await fetch('http://localhost:4001/api/session/', {
@@ -91,7 +76,7 @@ export const fetchSession = async () => {
     }
 }
 
-//cart
+//Update Cart item
 export const updateCart = async (id, quantity) => {
     try {
         const res = await fetch('http://localhost:4001/api/cart/', {
@@ -99,10 +84,8 @@ export const updateCart = async (id, quantity) => {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
-            },
-    
-            body: JSON.stringify({id, quantity})
-            
+            },    
+            body: JSON.stringify({id, quantity})            
         });
     
         if(res.ok) {
@@ -112,10 +95,10 @@ export const updateCart = async (id, quantity) => {
         }
     } catch(e) {
         alert(e);
-    }
-    
+    }    
 }
 
+//Delete item in cart
 export const deleteItemCart = async(id) => {
     try {
         const res = await fetch('http://localhost:4001/api/cart/', {
@@ -123,10 +106,8 @@ export const deleteItemCart = async(id) => {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
-            },
-    
-            body: JSON.stringify({id})
-            
+            },    
+            body: JSON.stringify({id})            
         });
     
         if(res.ok) {
@@ -139,6 +120,7 @@ export const deleteItemCart = async(id) => {
     }
 }
 
+//Empty Cart
 export const emptyCart = async() => {
     try {
         const res = await fetch('http://localhost:4001/api/cart/empty/', {
@@ -164,10 +146,8 @@ export const updateUser = async (userId, firstName, lastName, email) => {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
-            },
-    
-            body: JSON.stringify({firstName, lastName, email})
-            
+            },    
+            body: JSON.stringify({firstName, lastName, email})            
         });
     
         if(res.ok) {
@@ -178,10 +158,9 @@ export const updateUser = async (userId, firstName, lastName, email) => {
     } catch(e) {
         alert(e);
     }
-    
 }
 
-
+//Update user Address
 export const updateAddress = async (userId, addressId, addressObj) => {
     try {
         const res = await fetch(`http://localhost:4001/api/users/${userId}/address/${addressId}`, {
@@ -189,12 +168,9 @@ export const updateAddress = async (userId, addressId, addressObj) => {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
-            },
-    
-            body: JSON.stringify(addressObj)
-            
-        });
-    
+            },    
+            body: JSON.stringify(addressObj)            
+        });    
         if(res.ok) {
             return true;
         } else {
@@ -202,10 +178,10 @@ export const updateAddress = async (userId, addressId, addressObj) => {
         }
     } catch(e) {
         alert(e);
-    }
-    
+    }    
 }
 
+///Add New Address
 export const addNewAddress = async (userId, addressObj) => {
     try {
         const res = await fetch(`http://localhost:4001/api/users/${userId}/address`, {
@@ -213,10 +189,26 @@ export const addNewAddress = async (userId, addressObj) => {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
-            },
+            },    
+            body: JSON.stringify(addressObj)            
+        });
     
-            body: JSON.stringify(addressObj)
-            
+        if(res.ok) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch(e) {
+        alert(e);
+    }    
+}
+
+//Delete Address
+export const deleteAddress = async (userId, addressId) => {
+    try {
+        const res = await fetch(`http://localhost:4001/api/users/${userId}/address/${addressId}`, {
+            method : 'DELETE',
+            credentials: 'include',            
         });
     
         if(res.ok) {
@@ -227,23 +219,48 @@ export const addNewAddress = async (userId, addressObj) => {
     } catch(e) {
         alert(e);
     }
-    
 }
 
-export const deleteAddress = async (userId, addressId) => {
-    try {
-        const res = await fetch(`http://localhost:4001/api/users/${userId}/address/${addressId}`, {
-            method : 'DELETE',
+//Create New Order
+export const createNewOrder = async (orderObj) => {
+    try{
+        const res = await fetch('http://localhost:4001/api/cart/create-order', {
+            method: 'POST',
             credentials: 'include',
-            
-        });
+            headers: {
+                'Content-Type': 'application/json'
+            },
     
+            body: JSON.stringify(orderObj)
+        });
+        
         if(res.ok) {
-            return true;
-        } else {
-            return false;
+            const jsonResponse = await res.json();
+            return jsonResponse;
+        } else {            
+            return null;
         }
-    } catch(e) {
-        alert(e);
+    }catch(e) {
+        return null;
+    }
+}
+
+//Update Order Status in server, when payment failed
+export const updateFailOrder = async (orderId) => {
+    const res = await fetch('http://localhost:4001/api/payments-checkout/failed-stripe', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({orderId})
+    });
+    
+    if(res.ok) {            
+        return true;
+    } else {
+        
+        return false;
     }
 }

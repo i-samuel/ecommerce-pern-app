@@ -1,4 +1,3 @@
-
 const { fetchDefaultAddress, addNewAddress, addNewAddressDefault, changeDefaultAddress, updateAddress, removeAddress } = require('../model/address');
 const { throwError } = require('../utils');
 
