@@ -59,7 +59,7 @@ export default function CheckoutForm({dpmCheckerLink, handleNewOrder}) {
       confirmParams: {
         //redirect url when successfull payment
         //if payment success, webhook is sent to update order status
-       return_url: 'http://localhost:3000/payment-success',
+       return_url: 'https://ecommerce-pern-app-isam.onrender.com/payment-success',
       },
     });
 

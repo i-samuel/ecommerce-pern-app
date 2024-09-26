@@ -4,7 +4,7 @@ export const loadProductData = createAsyncThunk(
     'singleProduct/loadProductData',
     async(id) => {
         try{            
-            const endpoint = `http://localhost:4001/api/products/${id}`;
+            const endpoint = `/api/products/${id}`;
             const response = await fetch(endpoint);
             if(response.ok) {
                 const jsonResponse = await response.json();

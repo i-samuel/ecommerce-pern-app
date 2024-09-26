@@ -4,7 +4,7 @@ export const receiveCurrent = createAsyncThunk(
     'session/receiveCurrent',
     async() => {
         try{
-            const endpoint = `http://localhost:4001/api/session`;
+            const endpoint = `/api/session`;
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include'

@@ -15,9 +15,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4001;
 
-app.use(express.static(path.join(__dirname, 'view/build')));
-
 app.use(cors({ origin: true, credentials: true }));
+
+app.use(express.static(path.join(__dirname, 'view/build')));
 
 //passport
 initializePassport(passport);
@@ -42,10 +42,6 @@ app.use(passport.session());
 //routes
 app.use('/api', apiRouter);
 app.use('/v2/webhooks', webhooksRouter);
-
-app.get('/', (req, res) => {
-    res.send('hello home');
-})
 
 //error handling
 app.use((err, req, res, next) => {{

@@ -4,7 +4,7 @@ export const loadCart = createAsyncThunk(
     'cart/loadCart',
     async() => {
         try{           
-            const endpoint = 'http://localhost:4001/api/cart/';
+            const endpoint = '/api/cart/';
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include'

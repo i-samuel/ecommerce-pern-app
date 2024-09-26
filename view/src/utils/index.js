@@ -1,7 +1,7 @@
 //User Login
 export const login = async(email, password) => {
     try {
-        const res = await fetch('http://localhost:4001/api/login/', {
+        const res = await fetch('/api/login/', {
             method : 'POST',
             credentials: 'include',
             headers: {
@@ -22,7 +22,7 @@ export const login = async(email, password) => {
 //User Register
 export const signUp = async(email, username, password) => {
     try{
-        const res = await fetch('http://localhost:4001/api/register/', {
+        const res = await fetch('/api/register/', {
             method : 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ export const signUp = async(email, username, password) => {
 //User Logout
 export const logout = async () => {
     try{
-        const res = await fetch('http://localhost:4001/api/logout/', {
+        const res = await fetch('/api/logout/', {
             method : 'DELETE', 
             credentials: 'include'          
         });
@@ -62,7 +62,7 @@ export const logout = async () => {
 //Fetch if User logged in or not
 export const fetchSession = async () => {
     try{
-        const res = await fetch('http://localhost:4001/api/session/', {
+        const res = await fetch('/api/session/', {
             credentials: 'include'
         });
         if (res.ok) {
@@ -79,7 +79,7 @@ export const fetchSession = async () => {
 //Update Cart item
 export const updateCart = async (id, quantity) => {
     try {
-        const res = await fetch('http://localhost:4001/api/cart/', {
+        const res = await fetch('/api/cart/', {
             method : 'POST',
             credentials: 'include',
             headers: {
@@ -101,7 +101,7 @@ export const updateCart = async (id, quantity) => {
 //Delete item in cart
 export const deleteItemCart = async(id) => {
     try {
-        const res = await fetch('http://localhost:4001/api/cart/', {
+        const res = await fetch('/api/cart/', {
             method : 'DELETE',
             credentials: 'include',
             headers: {
@@ -123,7 +123,7 @@ export const deleteItemCart = async(id) => {
 //Empty Cart
 export const emptyCart = async() => {
     try {
-        const res = await fetch('http://localhost:4001/api/cart/empty/', {
+        const res = await fetch('/api/cart/empty/', {
             method : 'DELETE',
             credentials: 'include'            
         });
@@ -141,7 +141,7 @@ export const emptyCart = async() => {
 //update user info
 export const updateUser = async (userId, firstName, lastName, email) => {
     try {
-        const res = await fetch(`http://localhost:4001/api/users/${userId}`, {
+        const res = await fetch(`/api/users/${userId}`, {
             method : 'PUT',
             credentials: 'include',
             headers: {
@@ -163,7 +163,7 @@ export const updateUser = async (userId, firstName, lastName, email) => {
 //Update user Address
 export const updateAddress = async (userId, addressId, addressObj) => {
     try {
-        const res = await fetch(`http://localhost:4001/api/users/${userId}/address/${addressId}`, {
+        const res = await fetch(`/api/users/${userId}/address/${addressId}`, {
             method : 'PUT',
             credentials: 'include',
             headers: {
@@ -184,7 +184,7 @@ export const updateAddress = async (userId, addressId, addressObj) => {
 ///Add New Address
 export const addNewAddress = async (userId, addressObj) => {
     try {
-        const res = await fetch(`http://localhost:4001/api/users/${userId}/address`, {
+        const res = await fetch(`/api/users/${userId}/address`, {
             method : 'POST',
             credentials: 'include',
             headers: {
@@ -206,7 +206,7 @@ export const addNewAddress = async (userId, addressObj) => {
 //Delete Address
 export const deleteAddress = async (userId, addressId) => {
     try {
-        const res = await fetch(`http://localhost:4001/api/users/${userId}/address/${addressId}`, {
+        const res = await fetch(`/api/users/${userId}/address/${addressId}`, {
             method : 'DELETE',
             credentials: 'include',            
         });
@@ -224,7 +224,7 @@ export const deleteAddress = async (userId, addressId) => {
 //Create New Order
 export const createNewOrder = async (orderObj) => {
     try{
-        const res = await fetch('http://localhost:4001/api/cart/create-order', {
+        const res = await fetch('/api/cart/create-order', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -247,7 +247,7 @@ export const createNewOrder = async (orderObj) => {
 
 //Update Order Status in server, when payment failed
 export const updateFailOrder = async (orderId) => {
-    const res = await fetch('http://localhost:4001/api/payments-checkout/failed-stripe', {
+    const res = await fetch('/api/payments-checkout/failed-stripe', {
         method: 'POST',
         credentials: 'include',
         headers: {

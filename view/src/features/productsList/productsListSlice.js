@@ -5,7 +5,7 @@ export const loadProducts = createAsyncThunk(
     'productsList/loadProducts',
     async() => {
         try{            
-            const endpoint = 'http://localhost:4001/api/products/';
+            const endpoint = '/api/products/';
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include',
