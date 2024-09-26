@@ -15,9 +15,11 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4001;
 
-app.use(cors({ origin: true, credentials: true }));
+const buildPath = path.join(__dirname, 'view/build')
 
-app.use(express.static(path.join(__dirname, 'view/build')));
+app.use(express.static(buildPath));
+
+app.use(cors({ origin: true, credentials: true }));
 
 //passport
 initializePassport(passport);
@@ -31,8 +33,7 @@ app.use(
         cookie: {
             secure: process.env.NODE_ENV === 'production',
             maxAge: 1000*60*60*24,
-            sameSite: true
-            
+            sameSite: true           
         }
     })
 );
@@ -42,6 +43,11 @@ app.use(passport.session());
 //routes
 app.use('/api', apiRouter);
 app.use('/v2/webhooks', webhooksRouter);
+
+// gets the static files from the build folder
+app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+})
 
 //error handling
 app.use((err, req, res, next) => {{

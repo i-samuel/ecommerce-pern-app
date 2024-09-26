@@ -24,6 +24,7 @@ export const signUp = async(email, username, password) => {
     try{
         const res = await fetch('/api/register/', {
             method : 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },

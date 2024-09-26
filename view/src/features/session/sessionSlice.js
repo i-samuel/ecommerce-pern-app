@@ -4,14 +4,14 @@ export const receiveCurrent = createAsyncThunk(
     'session/receiveCurrent',
     async() => {
         try{
-            const endpoint = `/api/session`;
+            const endpoint = `/api/session/`;
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include'
             });
           
             if(response.ok) {
-                const jsonResponse = await response.json();               
+                const jsonResponse = await response.json();            
                 return jsonResponse.user;
             } else{
                 return null;
