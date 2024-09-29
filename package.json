@@ -2,7 +2,7 @@
   "name": "ecommerce-pern-app",
   "version": "0.1.0",
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ISAM",
@@ -14,12 +14,14 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "express-validator": "^7.1.0",
-    "nodemon": "^3.1.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.11.5",
     "stripe": "^16.2.0",
     "uuid": "^9.0.1",
     "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }

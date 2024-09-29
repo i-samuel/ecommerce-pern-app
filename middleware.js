@@ -37,8 +37,3 @@ exports.setCartId = async (req, res, next) => {
     req.cartId = cart.rows[0].id;
     return next();
 }
-
-
-exports.viewSession = (req, res, next) => {
-    
-}
