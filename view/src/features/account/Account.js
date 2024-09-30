@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadAccount, selectAddresses, selectDefault, selectExtra, selectInfo } from "./accountSlice";
+import { isLoadingAccount, loadAccount, selectAddresses, selectDefault, selectExtra, selectInfo } from "./accountSlice";
 import UserInfoModal from "../../Components/AccountModals/UserInfoModal";
 import AddressEditModal from "../../Components/AccountModals/AddressEditModal";
 import NewAddressModal from "../../Components/AccountModals/NewAddressModal";
@@ -13,7 +13,8 @@ import { selectUser } from "../session/sessionSlice";
 export default function Account() {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
-
+    const isLoading = useSelector(isLoadingAccount);
+    
     //set Edit user modal open/close
     const [userModalOpen, setUserModalOpen] = useState(false);
 

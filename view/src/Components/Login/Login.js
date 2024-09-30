@@ -45,12 +45,12 @@ export default function Login() {
                     <p className="mb-2">Password: user3030</p>
                 </div>
                 <div className="col-12">
-                    <label htmlFor="inputEmail4" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="inputEmail4" value={email} onChange={handleEmailChange}/>
+                    <label htmlFor="loginEmail" className="form-label">Email</label>
+                    <input type="email" className="form-control" id="loginEmail" value={email} onChange={handleEmailChange}/>
                 </div>
                 <div className="col-12">
-                    <label htmlFor="inputPassword4" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="inputPassword4" value={password} onChange={handlePasswordChange}/>
+                    <label htmlFor="loginPassword" className="form-label">Password</label>
+                    <input type="password" className="form-control" id="loginPassword" value={password} onChange={handlePasswordChange}/>
                 </div>
                 <div className="col-12 mt-5">
                     <button type="submit" className="btn btn-dark text-uppercase rounded-0 px-5">Login</button>

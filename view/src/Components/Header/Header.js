@@ -76,7 +76,10 @@ export default function Header() {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to='/checkout'>Checkout</Link>
-                            </li>                          
+                            </li> 
+                            <li className="nav-item">
+                                <Link className="nav-link" to='/shop/category/4/electronics'>Electronics</Link>
+                            </li>                           
                         </ul>
                         <form className="d-flex" role="search">
                             <input className="form-control rounded-0" type="search" placeholder="Search" aria-label="Search"/>

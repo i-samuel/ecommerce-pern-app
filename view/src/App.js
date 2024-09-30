@@ -16,6 +16,7 @@ import { loadCart } from './features/cart/cartSlice';
 import { loadAccount } from './features/account/accountSlice';
 import Home from './Components/Home/Home';
 import PaySuccess from './Components/Payments/PaySuccess';
+import CategoryPage from './Components/Shop/CategoryPage';
 
 function App({user}) {
   
@@ -33,12 +34,13 @@ function App({user}) {
     <>
     <Route path='/' element={ <Root/> }>
       <Route index element={ <Home/> }/>
-      <Route path='/shop' element={ <Shop/> }/>
-      <Route path='/product/:id/:title' element={ <SingleProduct/>}/>
-      <Route path='/signup' element={ <AuthRoute><AuthPage/></AuthRoute> }/>
-      <Route path='/cart' element={ <ProtectedRoute><CartPage/></ProtectedRoute> }/>
-      <Route path='/account' element={ <ProtectedRoute><Account/></ProtectedRoute> }/>
-      <Route path='/payment-success' element={ <ProtectedRoute><PaySuccess/></ProtectedRoute> }/>     
+      <Route path='shop' element={ <Shop/> }/>
+      <Route path='shop/category/:id/:title' element={ <CategoryPage/> }/>
+      <Route path='product/:id/:title' element={ <SingleProduct/>}/>
+      <Route path='signup' element={ <AuthRoute><AuthPage/></AuthRoute> }/>
+      <Route path='cart' element={ <ProtectedRoute><CartPage/></ProtectedRoute> }/>
+      <Route path='account' element={ <ProtectedRoute><Account/></ProtectedRoute> }/>
+      <Route path='payment-success' element={ <ProtectedRoute><PaySuccess/></ProtectedRoute> }/>     
     </Route> 
     <Route path='/checkout' element={ <ProtectedRoute><Checkout/></ProtectedRoute> }/>   
     </>

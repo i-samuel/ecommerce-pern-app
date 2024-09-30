@@ -31,16 +31,16 @@ export default function SignUp() {
             <p className="fs-5">Create an account</p>
             <form className="row g-3 mt-3" onSubmit={handleSignUp}>
                 <div className="col-12">
-                    <label htmlFor="inputEmail4" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="inputEmail4" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <label htmlFor="regEmail" className="form-label">Email</label>
+                    <input type="email" className="form-control" id="regEmail" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div className="col-12">
                     <label htmlFor="username" className="form-label">Username</label>
                     <input type="text" className="form-control" id="username" value={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
                 <div className="col-12">
-                    <label htmlFor="inputPassword4" className="form-label">Password</label>
-                    <input type="password" className="form-control" id="inputPassword4" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <label htmlFor="regPassword" className="form-label">Password</label>
+                    <input type="password" className="form-control" id="regPassword" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
                 <div className="col-12 mt-5">
                     <button type="submit" className="btn btn-dark rounded-0 px-5">REGISTER</button>

@@ -9,7 +9,7 @@ exports.getAllProducts = async (req, res, next) => {
         if(products.rows.length === 0){
             throwError("No Products Found", 404);
         }        
-        return res.status(200).json(products.rows);
+        return res.status(200).json({products: products.rows});
     
     } catch(err) {
         next(err);

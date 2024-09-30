@@ -10,6 +10,7 @@ const { checkValidationResults } = require('../middleware');
 
 router.param('categoryId', async (req, res, next, id) => {
     try {
+        console.log(id);
         //check id is integer
         let catId = parseInt(id);
         if(isNaN(catId)){

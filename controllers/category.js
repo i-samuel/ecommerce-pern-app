@@ -18,9 +18,6 @@ exports.addNewCategory = async (req, res, next) => {
 exports.getByCategory = async (req, res, next) => {
     try {
         const results = await findProductsByCategory(req.categoryId);
-        if(results.rows.length == 0){
-            throwError('No Products Found for Category', 404);   
-        }
         return res.status(200).json({ products: results.rows });
     } catch(err) {
         next(err);

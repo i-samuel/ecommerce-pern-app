@@ -13,8 +13,9 @@ export default function Shop() {
     },[dispatch]);   
 
     return(
-        <div className="container">
-            {isLoading ? '' : 
+        <div className="container pt-5">
+            <h1 class="display-6 text-capitalize">All Products</h1> 
+            {isLoading ? 'Loading Products' : 
             <ProductsList itemArr={products}/>
             }           
         </div>

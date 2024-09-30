@@ -1,8 +1,8 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
+const helmet = require("helmet")
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const session = require('express-session');
 //const csurf = require('csurf');
 const apiRouter = require('./routes/apiRouter');
@@ -15,8 +15,19 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4001;
 
-const buildPath = path.join(__dirname, 'view/build')
+// enabling the Helmet middleware
+app.use(helmet({
+    contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+            "default-src": ["'self'", "js.stripe.com"],
+            "script-src": ["'self'", "js.stripe.com"],
+        },
+    },
+}));
 
+//static files
+const buildPath = path.join(__dirname, 'view/build');
 app.use(express.static(buildPath));
 
 app.use(cors({ origin: true, credentials: true }));

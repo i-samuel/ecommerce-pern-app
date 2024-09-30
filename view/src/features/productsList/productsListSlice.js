@@ -3,9 +3,15 @@ import fetch from 'cross-fetch';
 
 export const loadProducts = createAsyncThunk(
     'productsList/loadProducts',
-    async() => {
-        try{            
-            const endpoint = '/api/products/';
+    async(category = null) => {
+        try{       
+            let endpoint;
+            if(category){
+                endpoint = `/api/category/${category}`;
+            } else{
+                endpoint = '/api/products/';
+            }     
+             
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include',
@@ -16,6 +22,8 @@ export const loadProducts = createAsyncThunk(
             if(response.ok){
                 const jsonResponse = await response.json();
                 return jsonResponse;
+            } else {
+                return Promise.reject();
             }
             
         } catch(e) {
@@ -41,7 +49,7 @@ export const productsListSlice = createSlice({
             .addCase(loadProducts.fulfilled, (state, action) => {
                 state.isLoadingProducts = false;
                 state.failedLoadingProducts = false;
-                state.products = action.payload;
+                state.products = action.payload.products;
             })
             .addCase(loadProducts.rejected, (state) => {
                 state.isLoadingProducts = false;
@@ -52,6 +60,6 @@ export const productsListSlice = createSlice({
 
 export const selectAllProducts = (state) => state.productsList.products;
 export const isLoadingProducts = (state) => state.productsList.isLoadingProducts;
-
+export const failedLoadProducts = (state) => state.productsList.failedLoadingProducts;
 
 export default productsListSlice.reducer;

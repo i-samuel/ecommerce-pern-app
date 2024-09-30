@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadCart, selectCartItems, selectCartTotal, changeSingleQuantity } from "./cartSlice";
+import { loadCart, selectCartItems, selectCartTotal, changeSingleQuantity, isLoadingCart } from "./cartSlice";
 import { deleteItemCart, emptyCart, updateCart } from "../../utils";
 import CartItem from "../../Components/CartItem/CartItem";
 import CartSummary from "../../Components/CartSummary/CartSummary";
@@ -12,7 +12,8 @@ import './cartPage.css';
 export default function CartPage() {
     const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
-    const cartTotal = useSelector(selectCartTotal); 
+    const cartTotal = useSelector(selectCartTotal);
+    const isLoading = useSelector(isLoadingCart);
 
     const cartLength = Object.keys(cartItems).length;
 
@@ -54,7 +55,7 @@ export default function CartPage() {
         const prevQuantity = cartItems[itemId].cart_quantity;
 
         //check for invalid inputs
-        if(newQuantity && newQuantity > 0 && value%1 == 0){                            
+        if(newQuantity && newQuantity > 0  && newQuantity !== prevQuantity && value%1 == 0){                            
             
             //timeout to update cart
             let t = setTimeout(async () =>{
@@ -142,6 +143,10 @@ export default function CartPage() {
             ));                
         }        
         return returnArr;
+    }
+
+    if(isLoading){
+        return ("Loading Data!");
     }
 
     return(        
