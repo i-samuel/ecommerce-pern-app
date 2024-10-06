@@ -1,14 +1,17 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const express = require('express');
-const helmet = require("helmet")
+const helmet = require("helmet");
 const cors = require('cors');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
+const passport = require('passport');
+const initializePassport = require('./passport.config');
+const pgPool = require("./model/database");
 //const csurf = require('csurf');
 const apiRouter = require('./routes/apiRouter');
 const webhooksRouter = require('./routes/webhooks');
-const passport = require('passport');
-const initializePassport = require('./passport.config');
+
 const path = require('path');
 
 //server
@@ -38,6 +41,9 @@ app.use(passport.initialize());
 
 app.use(
     session({
+        store: new pgSession({
+            pool: pgPool,
+        }),
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,

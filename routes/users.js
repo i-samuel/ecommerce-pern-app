@@ -36,7 +36,7 @@ router.use('/:userId/address', addressRouter);
 router.use('/:userId/orders', ordersRouter);
 
 //get all users
-router.get('/', getAllUsers);
+//router.get('/', getAllUsers);
 
 //get user info
 router.get('/:userId', getUserInfo);
