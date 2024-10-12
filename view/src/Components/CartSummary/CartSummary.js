@@ -9,7 +9,7 @@ export default function CartSummary({ total, shipping, tax }){
                 <div className="row cart-summary mt-2">
                     <div className="col d-flex justify-content-between">
                         <span>Sub Toal</span>
-                        <span>{`$ ${total}`}</span>
+                        <span>{`$ ${total.toFixed(2)}`}</span>
                     </div>
                 </div>
                 <div className="row cart-summary mt-2">

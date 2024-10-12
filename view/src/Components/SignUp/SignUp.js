@@ -13,6 +13,9 @@ export default function SignUp() {
             const isRegistered = await signUp(email, username, password);
             if(isRegistered === 'success') {
                 alert('Successfully created account! Please Login');
+                setEmail('');
+                setUsername('');
+                setPassword('');
             } else {
                 if(isRegistered.error === "Email Already exists" || isRegistered.error === "Username Already exists") {
                   alert(isRegistered.error);

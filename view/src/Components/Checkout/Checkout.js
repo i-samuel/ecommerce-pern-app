@@ -228,8 +228,8 @@ export default function Checkout() {
                   otherAdd={additionalShipping} 
                   newAddObj={newBillObj} 
                   inputHandler={handleBillingInput} 
-                  radioBtnHandler={handleBillingRadio} s
-                  ameAsShipping={sameAsShipping}/>                
+                  radioBtnHandler={handleBillingRadio} 
+                  sameAsShipping={sameAsShipping}/>                
                 }
 
               </div>

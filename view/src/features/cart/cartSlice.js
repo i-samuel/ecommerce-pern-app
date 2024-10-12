@@ -36,7 +36,7 @@ export const cartSlice = createSlice({
              for(const item in state.cartItems) {
                 newTotal += state.cartItems[item].price * state.cartItems[item].cart_quantity;
              }
-             state.cartTotal = parseFloat(newTotal.toFixed(2));
+             state.cartTotal = newTotal;
         },
         //empty cart
         cartEmpty: (state, action) => {
@@ -57,7 +57,7 @@ export const cartSlice = createSlice({
                 action.payload.cart.forEach((item) => {
                     itemsObj[item.id] = item;
                 });
-                state.cartItems = itemsObj
+                state.cartItems = itemsObj;
                 state.cartTotal = action.payload.cartTotal;
             })
             .addCase(loadCart.rejected, (state) => {

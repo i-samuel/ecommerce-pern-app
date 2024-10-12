@@ -26,8 +26,10 @@ exports.addNewAddress = async (req, res, next) => {
     
             if(newAddressId.rows.length === 0){
                 throwError("Database connection error", 500);
+            } else {
+                return res.status(200).send(`New default address added with id ${newAddressId.rows[0].id}`);
             }
-            return res.status(200).send(`New default address added with id ${newAddressId.rows[0].id}`);
+            
         } 
 
         //if false, create new non default addresses

@@ -89,6 +89,10 @@ export default function CheckoutForm({dpmCheckerLink, handleNewOrder}) {
 
   return (
     <div className="mt-4">
+      <div className="bg-warning-subtle px-2 py-3 mb-3">
+        <p>This site is for demo purposes only.</p>
+      </div>
+      
       <form id="payment-form" onSubmit={handleSubmit}>
         <PaymentElement id="payment-element" options={paymentElementOptions} />
         <button className="btn btn-dark mt-4 px-5 py-2" disabled={isLoading || !stripe || !elements} id="submit">

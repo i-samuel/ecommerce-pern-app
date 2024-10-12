@@ -42,11 +42,11 @@ Build a functioning e-commerce application using React, Node.js, and Postgres by
 
 - [Features](#features)
 - [Technologies](#technologies)
-- [ScreenShots](#screenShots)
-- [Improvements](#improvements)
+- [ScreenShots](#screenshots)
+- [Improvements](#upcoming-improvements)
+- [Online Demo](#site-demo)
 
-
-## Features {#features}
+## Features 
 
 #### Users
 
@@ -76,7 +76,7 @@ Build a functioning e-commerce application using React, Node.js, and Postgres by
 - Input validation and sanitizer to protect againt XSS attacks
 
 
-## Technologies {#technologies}
+## Technologies
 
 - HTML
 - CSS
@@ -118,4 +118,18 @@ In the /view directory, run > npm run build
 node app.js
 
 
+## Site Demo
 
+#### Demo User Account Credentials
+
+- User Email: user@reactshop.com
+- Password: user3030
+
+#### Testing Checkout
+
+Credit card credentials for test payments
+
+- Card No: 4242 4242 4242 4242
+- Card expiry: Use a valid future date, such as 12/34
+- CVC : Use any three-digit CVC (four digits for American Express cards)
+- Use any value you like for other form fields

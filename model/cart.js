@@ -15,7 +15,7 @@ const fetchItemCount = (cartId) => pool.query('SELECT COUNT(cart_id) from cart_p
 */
 
 const fetchItemCart = (cartId, productId) => {
-    return pool.query('SELECT id FROM cart_products WHERE cart_id = $1 AND product_id = $2', [cartId, productId]);
+    return pool.query('SELECT id, cart_quantity FROM cart_products WHERE cart_id = $1 AND product_id = $2', [cartId, productId]);
 };
 
 

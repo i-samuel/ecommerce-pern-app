@@ -57,13 +57,15 @@ export default function CartPage() {
         //check for invalid inputs
         if(newQuantity && newQuantity > 0  && newQuantity !== prevQuantity && value%1 == 0){                            
             
+            const quantityToChange = newQuantity - prevQuantity;
+           
             //timeout to update cart
             let t = setTimeout(async () =>{
                 
                 //update slice state
                 dispatch(changeSingleQuantity({id: itemId, quantity: newQuantity}));
                 //send server request
-                const cartSuccess = await updateCart(itemId, newQuantity);
+                const cartSuccess = await updateCart(itemId, quantityToChange);
 
                 if(cartSuccess){        
                     alert("cart updated");

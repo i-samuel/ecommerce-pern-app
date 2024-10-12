@@ -30,7 +30,6 @@ export const signUp = async(email, username, password) => {
             },
             body: JSON.stringify({email, username, password})            
         });
-        console.log(res);
         if (res.ok) {            
             return 'success';
         } else {
@@ -49,7 +48,6 @@ export const logout = async () => {
             method : 'DELETE', 
             credentials: 'include'          
         });
-        console.log(res);
         if (res.ok) {            
             return true;
         } else {

@@ -40,32 +40,38 @@ exports.getCartItems = async (req, res, next) => {
 exports.addToCart = async (req, res, next) => {
     try{        
         const itemId = parseFloat(req.body.id);
-        const quantity = parseFloat(req.body.quantity);
+        let quantity = parseFloat(req.body.quantity);
        
         //check whether id and quantity is valid
-        if(isNaN(itemId) || isNaN(quantity) || itemId < 0 || quantity <= 0 || quantity % 1 !== 0 || itemId % 1 !== 0) {             
-            throwError('Bad Request', 400) 
+        if(isNaN(itemId) || isNaN(quantity) || itemId < 0 || quantity === 0 || quantity % 1 !== 0 || itemId % 1 !== 0) {             
+            throwError('Bad Request', 400); 
         };
         
         //check if product is valid
         const checkItem = await findProductById(itemId);
-        if(checkItem.rows.length === 0) {
-            throwError('Product not found', 404);
+        //product id is invalid or product is out of stock
+        if(checkItem.rows.length === 0 || checkItem.rows[0].quantity === 0) {
+            throwError('Product not Available', 404);
         }
         
-        //check if ordered quantity available in stock
-        if(checkItem.rows[0].quantity === 0) {
-            throwError('Product Not Available to Purchase', 400);
-        }else if(checkItem.rows[0].quantity < quantity) {
+        //if product already exists on cart_products
+        const checkAlreadyExists = await fetchItemCart(req.cartId, itemId);
+        //if product already exist on cart
+        if (checkAlreadyExists.rows.length > 0) {
+            const cartItem = checkAlreadyExists.rows[0];
+            quantity += cartItem.cart_quantity;
+        }        
+    
+        if(quantity <= 0){
+            throwError('Bad Request', 400);
+        }//check if ordered quantity available in stock
+        else if(checkItem.rows[0].quantity < quantity) {
             throwError('Product quantity not Available to Purchase', 400);
         }
-        
-        //if product already exists on cart_products, only update the quantity
-        const checkAlreadyExists = await fetchItemCart(req.cartId, itemId);
 
+        //if product already exists on cart_products, only update the quantity
         if(checkAlreadyExists.rows.length > 0) {
             const updated = await updateCartItem(checkAlreadyExists.rows[0].id, quantity);
-            
             if(updated.rows.length === 0) {
                 throwError("Conncection Error", 500);
             }
