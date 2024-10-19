@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import './header.css';
 import { Link, useNavigate } from "react-router-dom";
@@ -6,12 +6,14 @@ import { logout } from "../../utils";
 import { removeAccount } from "../../features/account/accountSlice";
 import { cartEmpty } from "../../features/cart/cartSlice";
 import { logOutUser, selectUser } from "../../features/session/sessionSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import SearchBar from "./SearchBar.js/SearchBar";
+import { trim } from "validator";
+import TopMenu from "./TopMenu/TopMenu";
 
 export default function Header() {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
+    const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
     //Handle LogOut, Clear State
@@ -26,34 +28,22 @@ export default function Header() {
             alert('Log Out Failed');
         }
     }
+
+    const handleInputChange = (e) => {
+        setSearchTerm(e.target.value);
+    }
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if(trim(searchTerm).length > 0){
+            navigate(`/search?s=${searchTerm}`);
+        }
+        setSearchTerm('');
+    }
     
     return(
         <div className="shop-header">
-            <nav className="navbar shop-secondary-menu navbar-expand bg-dark border-bottom border-body" data-bs-theme="dark">
-                <div className="container d-flex justify-content-end">
-                    <div className="d-flex">         
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">                            
-                            {user ?
-                            <>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to='/cart'>Cart</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link" to='/account'>My Account</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <button onClick={handleLogout} className="btn btn-link text-uppercase ms-2">Log Out</button>
-                                </li>
-                            </>
-                            :
-                            <li className="nav-item">
-                                <Link className="nav-link" to='/signup'>Login/Signup</Link>
-                            </li>
-                            }   
-                        </ul>
-                    </div>                    
-                </div>                
-            </nav>
+            <TopMenu user={user} logOutHandler={handleLogout}/>
             <nav className="navbar navbar-expand-lg">
                 <div className="container d-flex container-fluid">
                     <Link className="navbar-brand me-4" href="/"><img className="shop-logo" alt="logo" src='images/logo.png'/></Link>
@@ -81,10 +71,11 @@ export default function Header() {
                                 <Link className="nav-link" to='/shop/category/4/electronics'>Electronics</Link>
                             </li>                           
                         </ul>
-                        <form className="d-flex" role="search">
-                            <input className="form-control rounded-0" type="search" placeholder="Search" aria-label="Search"/>
-                            <button className="btn btn-dark rounded-0" type="submit"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-                        </form>
+                        <SearchBar
+                            term={searchTerm}
+                            onChangeHandler={handleInputChange}
+                            onSubmitHandler={handleSearchSubmit}
+                        />
                     </div>
                 </div>
             </nav>

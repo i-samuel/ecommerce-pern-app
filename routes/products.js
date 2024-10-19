@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { throwError } = require('../utils');
-const { getAllProducts, newProduct, getSingleProduct, deleteProduct, editProduct } = require('../controllers/products');
+const { getAllProducts, searchProducts, newProduct, getSingleProduct, deleteProduct, editProduct } = require('../controllers/products');
 const { findProductById } = require('../model/products');
 const { isLoggedIn, checkValidationResults } = require('../middleware');
-const { body } = require('express-validator');
+const { body, query } = require('express-validator');
 
 //router params
 router.param('productId', async (req, res, next, id) => {
@@ -29,6 +29,9 @@ router.param('productId', async (req, res, next, id) => {
 
 //get all products
 router.get('/', getAllProducts);
+
+//search
+router.get('/search', query('searchTerm').trim().notEmpty(), checkValidationResults, searchProducts);
 
 //add new product
 router.post('/', 

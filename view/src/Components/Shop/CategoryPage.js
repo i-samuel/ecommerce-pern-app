@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { failedLoadProducts, isLoadingProducts, loadProducts, selectAllProducts } from "../../features/productsList/productsListSlice";
 import ProductsList from "../ProductsList/ProductsList";
 import { useDispatch, useSelector } from "react-redux";
+import { escape } from "validator";
 
 export default function CategoryPage(){
     const { id, title }= useParams();
@@ -18,14 +19,14 @@ export default function CategoryPage(){
         if(!isValid || isFailed){
             navigate('/shop');           
         }
-        dispatch(loadProducts(isValid));  
+        dispatch(loadProducts({type: 'category', catId: isValid}));  
     },[dispatch, isFailed]);    
 
     return(
         <div className="container pt-5">
             {isLoading ? 'Loading Products' :
             <>
-                <h1 class="display-6 text-capitalize">{title}</h1> 
+                <h1 class="display-6 text-capitalize">{escape(title)}</h1> 
                 <ProductsList itemArr={products}/>
             </>            
             }           

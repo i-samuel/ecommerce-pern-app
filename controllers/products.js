@@ -1,5 +1,6 @@
 const { throwError } = require('../utils');
-const { fetchAllProducts, addNewProduct, deleteSingleProduct, updateProduct }  = require('../model/products');
+const { fetchProductSearch, fetchAllProducts, addNewProduct, deleteSingleProduct, updateProduct }  = require('../model/products');
+//const { trim, isEmpty, escape } = require('validator');
 
 //get all products
 exports.getAllProducts = async (req, res, next) => {
@@ -9,9 +10,21 @@ exports.getAllProducts = async (req, res, next) => {
         if(products.rows.length === 0){
             throwError("No Products Found", 404);
         }        
-        return res.status(200).json({products: products.rows});
+        return res.status(200).json({ products: products.rows });
     
     } catch(err) {
+        next(err);
+    }
+}
+
+//search products
+exports.searchProducts = async (req, res, next) => {
+    try {
+        let { searchTerm } = req.query;    
+        const results = await fetchProductSearch(searchTerm);        
+
+        return res.status(200).json({ products: results.rows });
+    } catch(err){
         next(err);
     }
 }

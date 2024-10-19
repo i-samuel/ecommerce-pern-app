@@ -1,9 +1,13 @@
 const pool = require('./database');
 
 //get all products
-const fetchAllProducts = () => {
-    
+const fetchAllProducts = () => {    
     return pool.query('SELECT * FROM products')
+};
+
+//get products by keyword
+const fetchProductSearch = (keyword) => {
+    return pool.query("SELECT * FROM products WHERE title ILIKE $1", [`%${keyword}%`]);
 };
 
 //get single product row
@@ -25,4 +29,4 @@ const updateProduct = ({id, title, description, price, image_url, quantity}) => 
 //remove product 
 const deleteSingleProduct = (id) => pool.query('DELETE FROM products WHERE id=$1 RETURNING *', [id]);
 
-module.exports = { fetchAllProducts, addNewProduct, findProductById, deleteSingleProduct, updateProduct };
+module.exports = { fetchAllProducts, addNewProduct, findProductById, deleteSingleProduct, updateProduct, fetchProductSearch };

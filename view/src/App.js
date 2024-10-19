@@ -17,6 +17,7 @@ import { loadAccount } from './features/account/accountSlice';
 import Home from './Components/Home/Home';
 import PaySuccess from './Components/Payments/PaySuccess';
 import CategoryPage from './Components/Shop/CategoryPage';
+import SearchPage from './Components/Shop/SearchPage';
 
 function App({user}) {
   
@@ -37,6 +38,7 @@ function App({user}) {
       <Route path='shop' element={ <Shop/> }/>
       <Route path='shop/category/:id/:title' element={ <CategoryPage/> }/>
       <Route path='product/:id/:title' element={ <SingleProduct/>}/>
+      <Route path='search' element={ <SearchPage/>} />
       <Route path='signup' element={ <AuthRoute><AuthPage/></AuthRoute> }/>
       <Route path='cart' element={ <ProtectedRoute><CartPage/></ProtectedRoute> }/>
       <Route path='account' element={ <ProtectedRoute><Account/></ProtectedRoute> }/>

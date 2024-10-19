@@ -9,8 +9,8 @@ export default function Shop() {
     const products = useSelector(selectAllProducts);
     
     useEffect(() => {
-        dispatch(loadProducts());
-    },[dispatch]);   
+        dispatch(loadProducts({type: 'default'}));
+    },[dispatch]);
 
     return(
         <div className="container pt-5">

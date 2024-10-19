@@ -8,7 +8,7 @@ export default function Home() {
     const products = useSelector(selectAllProducts);
 
     useEffect(()=> {
-        dispatch(loadProducts());
+        dispatch(loadProducts({type: 'default'}));
     },[]);
 
     return(

@@ -1,0 +1,8 @@
+.shop-secondary-menu li, .shop-secondary-menu a {
+    color: #fff;
+    font-size: 14px;
+}
+
+.shop-secondary-menu li a:link:active{
+    color: #febd69 !important;
+}

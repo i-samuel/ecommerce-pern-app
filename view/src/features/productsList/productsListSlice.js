@@ -1,17 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import fetch from 'cross-fetch';
 
 export const loadProducts = createAsyncThunk(
     'productsList/loadProducts',
-    async(category = null) => {
+    async(dataObj) => {
         try{       
+            if(!('type' in dataObj)){
+                return Promise.reject();
+            }
             let endpoint;
-            if(category){
-                endpoint = `/api/category/${category}`;
-            } else{
-                endpoint = '/api/products/';
-            }     
-             
+            switch(dataObj.type){
+                case 'category':
+                    if('catId' in dataObj){
+                        endpoint = `/api/category/${dataObj.catId}`;
+                        break;
+                    }
+                case 'search':
+                    if('searchTerm' in dataObj){
+                        endpoint = `/api/products/search?searchTerm=${dataObj.searchTerm}`;
+                        break;
+                    }
+                default:
+                    endpoint = '/api/products/';
+                    break;
+            }
+            
             const response = await fetch(endpoint, {
                 method: 'GET',
                 credentials: 'include',
