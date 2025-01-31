@@ -8,7 +8,7 @@ const getCategories = () => pool.query('SELECT * FROM category');
 
 //get products by Category
 const findProductsByCategory = (id) =>{
-    return pool.query('SELECT * FROM products JOIN products_category ON products.id = products_category.product_id WHERE products_category.category_id = $1', [id]);
+    return pool.query('SELECT products.id as id, products.title, products.description, products.price, products.image_url FROM products JOIN products_category ON products.id = products_category.product_id WHERE products_category.category_id = $1', [id]);
 }
 
 //add category

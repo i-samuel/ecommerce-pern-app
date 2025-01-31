@@ -29,10 +29,12 @@ export default function Header() {
         }
     }
 
+    //handle search input change
     const handleInputChange = (e) => {
         setSearchTerm(e.target.value);
     }
-
+    
+    //handle search submit
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if(trim(searchTerm).length > 0){

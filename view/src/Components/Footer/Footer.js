@@ -11,32 +11,32 @@ export default function Footer() {
                 <div className="col-6 col-md-2 mb-3">
                     <h5>Our Company</h5>
                     <ul className="nav flex-column">
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">About</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Contact</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Our Locations</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Privacy Policy</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Terms</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">About</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Contact</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Our Locations</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Privacy Policy</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Terms</a></li>
                     </ul>
                 </div>
 
                 <div className="col-6 col-md-2 mb-3">
                     <h5>Important Links</h5>
                     <ul className="nav flex-column">
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Home</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Shop</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Shipping</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Return Policy</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">FAQs</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Home</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Shop</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Shipping</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Return Policy</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">FAQs</a></li>
                     </ul>
                 </div>
 
                 <div className="col-6 col-md-2 mb-3">
                     <h5>Partnerships</h5>
                     <ul className="nav flex-column">
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Investors</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Delivery Partners</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Affiliates</a></li>
-                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-body-secondary">Influencers</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Investors</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Delivery Partners</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Affiliates</a></li>
+                    <li className="nav-item mb-2"><a href="#" className="nav-link p-0">Influencers</a></li>
                     </ul>
                 </div>
 
